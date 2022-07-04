@@ -1,19 +1,30 @@
 import React, {useState} from 'react'
-import Userinfo from './Userinfo';
+import BalanceDashboard from './BalanceDashboard';
 import Expenses from './Expenses';
 import Features from './Features';
+import Modal from 'react-modal';
 
-function Dashboard(){
+
+function Dashboard(props){
+    const{setLoginPass}=props
     let index;
     let currentUserDetails;
     const userDetailsLocal = JSON.parse(localStorage.getItem('userDetails'))
     const currentUser = JSON.parse(localStorage.getItem('currentUser'))
+    let accountName;
     userDetailsLocal.forEach((element,elementIndex)=>{
         if(element.username===currentUser){
             index=elementIndex
             currentUserDetails=element
+            accountName=element.accountName
         }
         })
+
+    const [openModalState, setOpenModal] = useState({
+        openModal:false,
+        actionName:''
+    })
+    const{openModal,actionName} = openModalState
 
     const [currentBalance, setCurrentBalance] = useState(currentUserDetails.currentBalance)
     const computeBalance = (featureValue)=>{
@@ -28,7 +39,7 @@ function Dashboard(){
     currentUserDetails.currentBalance = currentBalance
     userDetailsLocal.splice(index,1,currentUserDetails)
     localStorage.setItem('userDetails',JSON.stringify(userDetailsLocal))
-    console.log(currentBalance)
+    
     return(
         <div className='main-container'>
             <header className='dashboard-header'>
@@ -39,13 +50,15 @@ function Dashboard(){
                 <div className='dashboard-section'>
                     <h3 className='dashboard-title'>Dashboard</h3>
                     <div className='bank-section'>
-                    <Userinfo
+                    <BalanceDashboard
+                    setLoginPass = {setLoginPass}
                     currentBalance = {currentBalance}
-                    
-                    
+                    accountName = {accountName}
+                    setOpenModal = {setOpenModal}
                     />
                     <Features
                     computeBalance = {computeBalance}
+                    setOpenModal = {setOpenModal}
                     />
                     </div>
                 </div>
@@ -55,6 +68,40 @@ function Dashboard(){
                     
                     />
                 </div>
+                <Modal
+                    isOpen={openModal}
+                    onRequestClose={()=>setOpenModal({openModal:false,actionName:''})}
+                    style={
+                    {
+                        content:{
+                        backgroundColor:'green',
+                        opacity:'100%',
+                        position:null,
+                        border:null,
+                        color:'yellow',
+                        fontWeight:'bold',
+                        fontSize:'2rem',
+                        width: 'min-content',
+                        border:'solid',
+                        borderRadius:'7px',
+                        textAlign:'center'
+
+                        },
+                        overlay:{
+                        backgroundColor:'gray',
+                        opacity:'90%',
+                        width: '100vw',
+                        height: '100vh',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        margin:'auto',
+                        }
+                    }
+                    }
+                    >
+                    <span>{actionName} SUCCESS!</span>
+                </Modal>
             </div>
         </div>
     )

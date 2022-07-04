@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 function WithdrawFeature (props){
-    const {computeBalance} = props
+  const {computeBalance,transactionHistoryList,currentAccountName,setOpenModal} = props
 
   const [withdrawState, setWithdrawState] = useState({
     withdraw:'',
@@ -20,6 +20,8 @@ function WithdrawFeature (props){
   const clickWithdrawProceed = () => {
     setWithdrawState({ ...withdrawState, withdrawActive: false })
     computeBalance({withdraw:Number(withdraw)})
+    transactionHistoryList('Withdraw',withdraw,currentAccountName,'')
+    setOpenModal({openModal:true,actionName:'WITHDRAW'})
   }
   const clickCancelWithdraw = () => {
     setWithdrawState({ ...withdrawState, withdrawActive: false })
@@ -29,11 +31,13 @@ function WithdrawFeature (props){
         {
             withdrawActive?
             <div>
+              <form className='withdraw-form' onSubmit={clickWithdrawProceed}>
                 <label for="withdraw">Withdraw:</label>
                 <input id="withdraw" type="number" placeholder="withdraw money" name="withdraw" value={withdraw} 
-                minlength="4" maxlength="8" size="10" onChange={handleOnWithdraw}/>
-                <button className="proceed" onClick={() => clickWithdrawProceed()}>Proceed</button>
-                <button className="cancelWithdraw" onClick={() => clickCancelWithdraw()}>Cancel</button>
+                minlength="4" maxlength="8" size="10" onChange={handleOnWithdraw} required/>
+                <input type="submit" value="Proceed" className="login-button" />
+                <button className="cancel-button" onClick={() => clickCancelWithdraw()}>Cancel</button>
+              </form>
             </div>
             :
             <button className="withdraw" onClick={() => clickWithdraw()}>Withdraw</button>

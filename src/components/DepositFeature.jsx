@@ -1,18 +1,7 @@
 import React, { useState } from 'react'
 
 function DepositFeature (props){
-    const {computeBalance} = props
-    const userDetailsLocal = JSON.parse(localStorage.getItem('userDetails'))
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'))
-
-    let index;
-    let currentUserDetails;
-    userDetailsLocal.forEach((element,elementIndex)=>{
-      if(element.username===currentUser){
-          index=elementIndex
-          currentUserDetails=element
-      }
-      })
+  const {computeBalance,transactionHistoryList,currentAccountName,setOpenModal} = props
 
   const [depositState, setDepositState] = useState({
     deposit:'',
@@ -29,15 +18,11 @@ function DepositFeature (props){
     setDepositState({ deposit:'', depositActive: true })
   }
   const clickDepositProceed = () => {
-    currentUserDetails.currentBalance = deposit
-    userDetailsLocal.splice(index,1,currentUserDetails)
-    localStorage.setItem('userDetails',JSON.stringify(userDetailsLocal))
     setDepositState({ ...depositState, depositActive: false })
     computeBalance({deposit:Number(deposit)})
-
-
+    transactionHistoryList('Deposit',deposit,currentAccountName,'')
+    setOpenModal({openModal:true,actionName:'DEPOSIT'})
     
-    console.log(userDetailsLocal)
   }
   const clickCancelDeposit = () => {
     setDepositState({ ...depositState, depositActive: false })
@@ -47,11 +32,13 @@ function DepositFeature (props){
         {
             depositActive?
             <div>
+              <form className='deposit-form' onSubmit={clickDepositProceed}>
                 <label for="deposit">Deposit:</label>
-                <input id="deposit" type="number" placeholder="deposit money" name="deposit" value={deposit} 
+                <input id="deposit" type="number" placeholder="deposit money" name="deposit" value={deposit} required
                 minlength="4" maxlength="8" size="10" onChange={handleOnDeposit}/>
-                <button className="proceed" onClick={() => clickDepositProceed()}>Proceed</button>
-                <button className="cancelDeposit" onClick={() => clickCancelDeposit()}>Cancel</button>
+                <input type="submit" value="Proceed" className="login-button" />
+                <button className="cancel-button" onClick={() => clickCancelDeposit()}>Cancel</button>
+              </form>
             </div>
             :
             <button className="deposit" onClick={() => clickDeposit()}>Deposit</button>

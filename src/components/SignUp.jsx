@@ -1,7 +1,7 @@
-import React, { useState , useEffect} from 'react'
+import React, { useState } from 'react'
 
 function SignUp(props){
-    const {goToLogin} = props
+    const {setSignupActive} = props
     const [signupState, setSignupState] = useState({
         username:'',
         password:'',
@@ -30,61 +30,106 @@ function SignUp(props){
     const userDetailsLocal = JSON.parse(localStorage.getItem('userDetails'))?JSON.parse(localStorage.getItem('userDetails')):[]
    
     const userDetailsUsername = userDetailsLocal.map(element => element.username)
-    const userDetailsPassword = userDetailsLocal.map(element => element.password)
+    // const userDetailsPassword = userDetailsLocal.map(element => element.password)
     const userDetailsAccountname = userDetailsLocal.map(element => element.accountName)
     const userDetailsEmail = userDetailsLocal.map(element => element.email)
    
-    if(username !== '' && userDetailsUsername.includes(username)){
-      alert("Username is already taken")
-    }
-    if(password !== '' && userDetailsPassword.includes(password)){
-      alert("Password is already taken")
-    }
-    if(accountName !== '' && userDetailsAccountname.includes(accountName)){
-      alert("Account name is already taken")
-    }
-    if(email !== '' && userDetailsEmail.includes(email)){
-      alert("Email is already taken")
-    }
     const finishedSignup = (e) => {
       e.preventDefault()
         userDetailsLocal.push(userDetails)
         localStorage.setItem('userDetails',JSON.stringify(userDetailsLocal))
         localStorage.setItem('logInAccounts',JSON.stringify(loginAccountsLocal))
-        goToLogin()
-    }
-    const cancelSignup = ()=>{
-      goToLogin()
+        setSignupActive(false)
     }
 
+    let userLastInput=''
+    let usernameColor;
+    let accountNameColor;
+    let emailColor;
+    //Username
+    userDetailsUsername.forEach(element => {
+      if(username === element){
+        usernameColor = 'username-color'
+      }
+    })
+    const usernameValue =()=>{
+      if(userDetailsUsername.includes(username)){
+        return 'Invalid Username!'
+      }else{
+        if(username === 'Invalid Username'){
+        return userLastInput
+        }else{
+          return username
+        }
+      }
+    }
+    //AccountName
+    userDetailsAccountname.forEach(element => {
+      if(accountName === element){
+        accountNameColor = 'accountName-color'
+      }
+    })
+    const accountNameValue =()=>{
+      if(userDetailsAccountname.includes(accountName)){
+        return 'Invalid Account Name!'
+      }else{
+        if(accountName === 'Invalid Account Name'){
+        return userLastInput
+        }else{
+          return accountName
+        }
+      }
+    }
+    //Email
+    userDetailsEmail.forEach(element => {
+      if(email === element){
+        emailColor = 'email-color'
+      }
+    })
+    const emailValue =()=>{
+      if(userDetailsEmail.includes(email)){
+        return 'Invalid Email!'
+      }else{
+        if(email === 'Invalid Email'){
+        return userLastInput
+        }else{
+          return email
+        }
+      }
+    }
+    
     return(
         <div className="signup-container">
-          <form onSubmit={finishedSignup}>
+          <form className='signup-form' onSubmit={finishedSignup}>
             <h1 className="login-logo">-penny's bank-</h1>
             <h3 className="login-title">Sign-Up to PENNY'S BANK</h3>
             <div className="username">
-            <label for="username">Username:</label>
-            <input id="username" type="text" placeholder="username name" name="username" value={username} required
-             onChange={handleOnSignup} />
+              <label for="username">Username:
+              <input id="username" className={usernameColor} type="text" placeholder="username name" name="username" value={usernameValue()} required
+              onChange={handleOnSignup} />
+              </label>
             </div>
             <div className="password">
-            <label for="password">Password:</label>
-            <input id="password" type="password" placeholder="password" name="password" value={password} required
-             onChange={handleOnSignup} />
+              <label for="password">Password:
+              <input id="password" type="password" placeholder="password" name="password" value={password} required
+              onChange={handleOnSignup} />
+              </label>
             </div>
             <div className="accountName">
-            <label for="accountName">Account Name:</label>
-            <input id="accountName" type="text" placeholder="accountName" name="accountName" value={accountName} required
-             onChange={handleOnSignup} />
+              <label for="accountName">Account Name:
+               <input id="accountName" className={accountNameColor} type="text" placeholder="accountName" name="accountName" value={accountNameValue()} required
+              onChange={handleOnSignup} />
+              </label>
             </div>
             <div className="email">
-            <label for="email">Email:</label>
-            <input id="email" type="email" placeholder="email" name="email" value={email} required
-             onChange={handleOnSignup} />
+              <label for="email">Email:
+              <input id="email" className={emailColor} type="email" placeholder="email" name="email" value={emailValue()} required
+              onChange={handleOnSignup} />
+              </label>
             </div>
             <input type="submit" value="SIGNUP" className="login-button" />
-            </form>
-            <button className="login-button" onClick={() => cancelSignup()}>go back to Log-in</button>
+            <button className="login-button" onClick={() => setSignupActive(false)}>go back to Log-in</button>
+          </form>
         </div>
     )
 }

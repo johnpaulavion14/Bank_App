@@ -4,11 +4,11 @@ import ExpensesUpdateItem from './ExpensesUpdateItem';
 
 function Expenses(props){
   const {currentBalance} = props
-
+  const currentUser = JSON.parse(localStorage.getItem('currentUser'))
   const [state, setState] = useState({
     expenses:'',
     cost: '',
-    expenseList: JSON.parse(localStorage.getItem('expensesList'))?JSON.parse(localStorage.getItem('expensesList')):[]
+    expenseList: JSON.parse(localStorage.getItem(`${currentUser}Expenses`))?JSON.parse(localStorage.getItem(`${currentUser}Expenses`)):[]
   })
 
   const [isUpdate, setIsUpdate] = useState({
@@ -50,9 +50,10 @@ function Expenses(props){
     expensesAndCost.update = false
 
     list.push(expensesAndCost) 
+  
 
     setState({ expenses:'',cost: '', expenseList:list})
-    localStorage.setItem('expensesList',JSON.stringify(expenseList))
+    localStorage.setItem(`${currentUser}Expenses`,JSON.stringify(expenseList))
 
   }
 
@@ -62,7 +63,7 @@ function Expenses(props){
     list.splice(index, 1) 
 
     setState({ expenses: '',cost:'', expenseList: list })
-    localStorage.setItem('expensesList',JSON.stringify(expenseList))
+    localStorage.setItem(currentUser,JSON.stringify(expenseList))
   }
 
   /* UPDATE */
@@ -85,7 +86,7 @@ function Expenses(props){
     list.splice(index, 1,expensesAndCost) 
 
     setState({ expenses:'',cost: '', expenseList:list})
-    localStorage.setItem('expensesList',JSON.stringify(expenseList))
+    localStorage.setItem(`${currentUser}Expenses`,JSON.stringify(expenseList))
   }
   const clickCancel = (index) => {
     const newList = expenseList
@@ -93,7 +94,7 @@ function Expenses(props){
     list.update = false
     newList.splice(index, 1,list) 
     setState({expenseList:newList})
-    localStorage.setItem('expensesList',JSON.stringify(expenseList))
+    localStorage.setItem(`${currentUser}Expenses`,JSON.stringify(expenseList))
   }
   //Add total expenses
   const costContainer = expenseList.map(element => element.cost)

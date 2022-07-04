@@ -3,42 +3,71 @@
   padding: 0;
   box-sizing: border-box;
 }
-/* body{
-} */
+body{
+  width: 100vw;
+  height: 100vh;
+  font-family: 'Roboto', sans-serif;
+}
+.outer-container{
+  width: 100%;
+  height: 100%;
+}
+.main-container{
+  width: 100%;
+  height: 100%;
+}
 
 /* Login Section */
 .login-container{
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(233, 233, 233);
+  border-radius: 9px;
   text-align: center;
+  margin: auto;
+  margin-top: 80px;
+  box-shadow: 20px 20px 50px grey;
+}
+.login-form{
+  padding: 80px 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .login-logo{
-  margin-top: 1em;
   font-family: 'Bungee', cursive;
   color: red;
   font-size: 2rem;
 }
 .login-title{
   margin-top: 1em;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   margin-bottom: 10px;
 }
 
-.username{
-  margin-bottom: 5px;
+.username, .password, .accountName, .email{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10px;
 }
-#username{
+.errorLogin{
+  color: red;
+}
+#username, #password, #accountName,#email{
+  padding: 2px 5px;
   margin-left: 5px;
 }
-#password{
-  margin-left: 5px;
-}
-.password{
-  margin-bottom: 5px;
-}
+
+
 .login-button{
+  font-weight: 700;
+  color: white;
   margin-top: 1em;
   border-radius: 5px;
   background-color: red;
   padding: 5px 10px;
+  cursor: pointer;
 }
 .sign-up{
   display: block;
@@ -48,15 +77,35 @@
   text-decoration: underline;
   color: red;
 }
+.accountName-color{
+  color: red;
+}
+.username-color{
+  color: red;
+}
+.email-color{
+  color: red;
+}
+#signup-link{
+  cursor: pointer;
+}
 /* Sign-up Container */
 .signup-container{
-  width: 50%;
-  height: 50vh;
-  margin: auto;
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(233, 233, 233);
+  border-radius: 9px;
   text-align: center;
+  margin: auto;
+  margin-top: 80px;
+  box-shadow: 20px 20px 50px grey;
 }
-
-
+.signup-form{
+  padding: 60px 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
 /* Dashboard Section */
 .main-container{
@@ -115,25 +164,156 @@
   padding: .5em;
   text-align: center;
 }
+.features-mainContainer{
+  width: 100%;
+  height: 100%;
+}
 .features-section{
   width: 90%;
+  height: 100%;
   display: grid;
   grid-template-columns: 50% 50%;
   column-gap: 1em;
   row-gap: 1em;
   text-align: center;
 }
-.features-section button{
-  width: 100%;
-  background-color: rgb(233, 233, 233);
-  border-radius: 5px;
-  padding: 5px 10px;
+/* deposit */
+.deposit-section{
+  box-shadow: 20px 20px 50px grey;
+}
 
+.deposit{
+  width: 100%;
+  height: 100%;
+  font-family: 'Bungee', cursive;
+  font-size: 1.5rem;
+}
+.deposit-form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+::-webkit-input-placeholder {
+  text-align: center;
+}
+.deposit-form label{
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+.cancel-button{
+  font-weight: 700;
+  color: white;
+  margin-top: 5px;
+  border-radius: 5px;
+  background-color: red;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+.withdraw-section{
+  box-shadow: 20px 20px 50px grey;
+}
+.withdraw{
+  width: 100%;
+  height: 100%;
+  font-family: 'Bungee', cursive;
+  font-size: 1.5rem;
+}
+.withdraw-form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.withdraw-form label{
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+.sendMoney-section{
+  box-shadow: 20px 20px 50px grey;
+}
+.sendMoney{
+  width: 100%;
+  height: 100%;
+  font-family: 'Bungee', cursive;
+  font-size: 1.5rem;
+}
+.sendMoney-form{
+  display: flex;
+  flex-direction: column;
+  align-items:center;
+  justify-content: center;
+  margin-top: 1em;
+}
+#sendMoney-label{
+  margin: 10px auto;
+}
+.history{
+  box-shadow: 20px 20px 50px grey;
+  font-family: 'Bungee', cursive;
+  font-size: 1.5rem;
+}
+.history-section caption{
+  font-weight: bold;
+  font-size: 20px;
+  text-decoration: underline;
+  margin-bottom: 10px;
+}
+.table-history{
+  width:100%;
+  table-layout: auto;
 }
 
 .user-info-section{
   background-color: rgb(233, 233, 233);
+  box-shadow: 20px 20px 50px grey;
+  border-radius: 7px;
+}
+.balance-diplay{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1.5em;
+}
+#accountName-display{
+  font-size: 1rem;
+  font-weight: 700;
+}
+#current-money{
+  font-size: 50px;
+  font-weight: 700;
+}
+/* update account */
+.account-container{
+  font-size: 13px;
+}
+.updateAccount-form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.updateAccount-title{
+  margin-top: 5px;
+  font-size: 1.3rem;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+.update-username, .update-password, .update-accountName,.update-email{
+  margin-bottom: 5px;
+}
+.logout{
+  display: flex;
+  
+}
+.update-button{
+  font-weight: 700;
+  color: white;
   border-radius: 5px;
+  background-color: red;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin: 5px 5px 0px 5px ;
 }
 
 /* Expense Section */
@@ -233,3 +413,6 @@
   width: 15px;
   background-size: 100%;
 }
+
+
+
